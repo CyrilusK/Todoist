@@ -11,7 +11,7 @@ class TodoListViewController: UIViewController {
     
     var tableView = UITableView()
     
-    var listOfThings = ["hgfjhgj", "hgfjhgj", "kljnjhnjkb"]
+    var listOfThings = ["dfrg", "hgfjhgj", "kljnjhnjkb"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +37,7 @@ class TodoListViewController: UIViewController {
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
+        tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
     }
@@ -63,5 +64,19 @@ extension TodoListViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.textLabel?.text = listOfThings[indexPath.row]
         return cell
+    }
+    
+}
+
+extension TodoListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.tableView.deselectRow(at: indexPath, animated: true)
+        tableView.cellForRow(at: indexPath)?.accessoryView?.backgroundColor = .systemBlue
+        if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
+            tableView.cellForRow(at: indexPath)?.accessoryType = .none
+        }
+        else {
+            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+        }
     }
 }
